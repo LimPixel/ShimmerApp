@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-       Home()
+        Home()
     }
 }
 
@@ -104,41 +104,44 @@ struct Home : View {
     @State var show = false
     
     var body: some View{
-        ScrollView(.vertical, showsIndicators : false) {
-            
-            VStack{
-                if self.data.isEmpty{
-                    ForEach(0...10, id : \.self) {_ in
-                        
-                        CardShimmer()
-                        
-                    }
-                }else{
-                    ForEach(self.data, id : \.self) {i in
-                        CellView(pic: i)
-                            .onTapGesture {
-                                self.show.toggle()
-                            }
+        NavigationView{
+            ScrollView(.vertical, showsIndicators : false) {
+                
+                VStack{
+                    if self.data.isEmpty{
+                        ForEach(0...10, id : \.self) {_ in
+                            
+                            CardShimmer()
+                            
+                        }
+                    }else{
+                        ForEach(self.data, id : \.self) {i in
+                            CellView(pic: i)
+                                .onTapGesture {
+                                    self.show.toggle()
+                                }
+                        }
                     }
                 }
             }
-        }
-        .navigationBarTitle("Home", displayMode: .inline)
-        .navigationBarItems(trailing:
-                                Button(action : {
-                                    
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2){
-                                        for i in 1...5 {
-                                            self.data.append("p\(i)")
+            
+            .navigationBarTitle("Home", displayMode: .inline)
+            .navigationBarItems(trailing:
+                                    Button(action : {
+                                        
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                                            for i in 1...5 {
+                                                self.data.append("p\(i)")
+                                            }
                                         }
-                                    }
-                                }, label : {
-                                    Image(systemName: "plus")
-                                        .resizable()
-                                        .frame(width: 18, height: 18)
-                                        .foregroundColor(.blue)
-                                })
-        )
+                                    }, label : {
+                                        Image(systemName: "plus")
+                                            .resizable()
+                                            .frame(width: 18, height: 18)
+                                            .foregroundColor(.blue)
+                                    })
+            )
+        }
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: self.$show){
             TextShimmer()
